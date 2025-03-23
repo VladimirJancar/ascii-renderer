@@ -1,0 +1,20 @@
+-add readme
+-add ffmpeg
+
+
+The program will take -f filepath, -c colour. If its a video it will be converted frame by frame. if its and image, it will just be printed as ascii art.
+
+/ascii-renderer
+│── /src
+│   │── main.cpp                  # Entry point
+│   │── ImageRenderer.cpp         # Implementation of ImageRenderer
+│   │── ASCIIConverter.cpp        # Implementation of ASCIIConverter
+│   │── Utils.cpp                 # Implementation of utility functions
+│── /include
+│   │── ImageRenderer.h
+│   │── ASCIIConverter.h
+│   │── Utils.h
+│── /assets                       # Sample images/videos
+│── /build                        # Compiled binaries
+│── Makefile                      # Compilation script
+│── README.md                     # Documentation
