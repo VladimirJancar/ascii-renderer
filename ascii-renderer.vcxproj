@@ -59,13 +59,15 @@
       <LanguageStandard>stdcpp20</LanguageStandard>
       <DisableLanguageExtensions>true</DisableLanguageExtensions>
       <AdditionalOptions>/w44388 %(AdditionalOptions)</AdditionalOptions>
-      <TreatWarningAsError>true</TreatWarningAsError>
+      <TreatWarningAsError>false</TreatWarningAsError>
       <UseStandardPreprocessor>true</UseStandardPreprocessor>
-      <AdditionalIncludeDirectories>C:\Users\Vladimir\source\repos\ascii-renderer\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\Users\Vladimir\source\repos\ascii-renderer\include\ffmpeg;C:\Users\Vladimir\source\repos\ascii-renderer\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalLibraryDirectories>C:\Users\Vladimir\source\repos\ascii-renderer\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>avcodec.lib;avformat.lib;avutil.lib;swscale.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -90,7 +92,15 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="src\main.cpp" />
+    <ClCompile Include="src/AsciiConverter.cpp" />
+    <ClCompile Include="src/ImageRenderer.cpp" />
+    <ClCompile Include="src/main.cpp" />
+    <ClCompile Include="src/Utils.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="include/AsciiConverter.hpp" />
+    <ClCompile Include="include/ImageRenderer.hpp" />
+    <ClInclude Include="include/Utils.hpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
