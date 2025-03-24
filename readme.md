@@ -1,8 +1,10 @@
 # ASCII Renderer
 
+!!! IN THE MAKING 
+
 A simple C++ program that converts image files into ASCII art and prints them to console. Future versions will include video rendering, colour support, linux support.
 
-![Project Banner](assets/img2.png) 
+<!-- ![Project Banner](assets/img2.png) -->
 
 ## Table of Contents
 - [About](#about)
@@ -16,7 +18,6 @@ TODO
 
 
 ### Features
-- TODO
 - TODO
 
 ## Installation
@@ -36,9 +37,9 @@ To get started, follow these steps:
 3. The compiled binary will be located in the build folder.
 
 ## Usage
-
-    Run the program with the image file path as an argument:
     ```bash
+    Run the program with the image file path as an argument:
+    
     ./ascii-renderer <path_to_image>
     ```
 

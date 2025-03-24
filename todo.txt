@@ -1,6 +1,11 @@
 -add readme
 -remove redundant ffmpeg binaries and headers
-
+-add options
+-add option to output to file
+-add option to 
+-add option for img/vid (parsing file format)
+-add option to open in a new static cmd
+-add dynamic image scaling
 
 
 The program will take -f filepath, -c colour. If its a video it will be converted frame by frame. if its and image, it will just be printed as ascii art.
