@@ -50,6 +50,7 @@ int main() {
 
             std::cout << grayscaleToASCII(gray);
         }
+        std::cout << '\n';
     }
     
 
