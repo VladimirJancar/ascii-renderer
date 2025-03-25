@@ -9,28 +9,14 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="src\main.cpp">
-      <Filter>src</Filter>
-    </ClCompile>
-    <ClCompile Include="ImageRenderer.hpp">
-      <Filter>include</Filter>
-    </ClCompile>
-    <ClCompile Include="AsciiConverter.cpp">
-      <Filter>src</Filter>
-    </ClCompile>
-    <ClCompile Include="ImageRenderer.cpp">
-      <Filter>src</Filter>
-    </ClCompile>
-    <ClCompile Include="Utils.cpp">
-      <Filter>src</Filter>
-    </ClCompile>
+    <ClCompile Include="src/AsciiConverter.cpp" />
+    <ClCompile Include="src/ImageRenderer.cpp" />
+    <ClCompile Include="src/main.cpp" />
+    <ClCompile Include="src/Utils.cpp" />
+    <ClCompile Include="src\ArgumentParser.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="AsciiConverter.hpp">
-      <Filter>include</Filter>
-    </ClInclude>
-    <ClInclude Include="Utils.hpp">
-      <Filter>include</Filter>
-    </ClInclude>
+    <ClInclude Include="src\ArgumentParser.hpp" />
+    <ClInclude Include="src\ImageRenderer.hpp" />
   </ItemGroup>
 </Project>

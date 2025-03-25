@@ -96,6 +96,11 @@
     <ClCompile Include="src/ImageRenderer.cpp" />
     <ClCompile Include="src/main.cpp" />
     <ClCompile Include="src/Utils.cpp" />
+    <ClCompile Include="src\ArgumentParser.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="src\ArgumentParser.hpp" />
+    <ClInclude Include="src\ImageRenderer.hpp" />
   </ItemGroup>
   <!-- <ItemGroup>
     <ClInclude Include="include/AsciiConverter.hpp" />

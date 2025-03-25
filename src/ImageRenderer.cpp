@@ -1,7 +1,6 @@
 ﻿#define STB_IMAGE_IMPLEMENTATION  // Only define in ONE .cpp file!
 #include "ImageRenderer.hpp"
-#include "stb_image.h"
-#include <iostream>
+
 
 //TODO add reversed shading -r
 const std::string ASCII_CHARS = " .:-=+*#&@";
@@ -35,7 +34,7 @@ void ImageRenderer::convertToAscii() {
 
 
     // Calculate the new width (100 in this case) and adjust the height to keep the correct aspect ratio. The height is halved to account for the fact that terminal characters are usually taller than they are wide.
-    int newWidth = 100;
+    int newWidth = 80;
     int newHeight = (m_height * newWidth) / m_width / 2;  // Aspect ratio correction
 
 
