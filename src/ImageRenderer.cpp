@@ -3,9 +3,10 @@
 #include "stb_image.h"
 #include <iostream>
 
-//const char* ASCII_CHARS = "@%#*+=-:. ";
 //TODO add reversed shading -r
-const std::string ASCII_CHARS = "@%#*+=-:. ";
+const std::string ASCII_CHARS = " .:-=+*#&@";
+//const std::string ASCII_CHARS = "@&#*+=-:. ";
+//const std::string ASCII_CHARS = " .:~i=CX&";
 const std::string ASCII_BLOCKS = "██▓▓▒▒░░  ";
 
 ImageRenderer::ImageRenderer() : m_imageData(nullptr), m_width(0), m_height(0), m_channels(0) {}
@@ -15,7 +16,7 @@ ImageRenderer::~ImageRenderer() {
 }
 
 bool ImageRenderer::loadImage(const std::string& filePath) {
-    m_imageData = stbi_load(filePath.c_str(), &m_width, &m_height, &m_channels, 3);
+    m_imageData = stbi_load(filePath.c_str(), &m_width, &m_height, &m_channels, 0);
     if (!m_imageData) {
         std::cerr << "Error: Failed to load image " << filePath << std::endl;
         return false;
