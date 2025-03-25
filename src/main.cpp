@@ -11,7 +11,8 @@ int main(int argc, char* argv[]) {
     }*/
 
     //std::string imagePath = argv[1];
-    std::string imagePath = "../assets/ship2_nb.png";
+    std::string imagePath = "assets/ship2.png";
+
     ImageRenderer renderer;
 
     if (!renderer.loadImage(imagePath)) {

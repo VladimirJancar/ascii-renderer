@@ -97,11 +97,11 @@
     <ClCompile Include="src/main.cpp" />
     <ClCompile Include="src/Utils.cpp" />
   </ItemGroup>
-  <ItemGroup>
+  <!-- <ItemGroup>
     <ClInclude Include="include/AsciiConverter.hpp" />
     <ClCompile Include="include/ImageRenderer.hpp" />
     <ClInclude Include="include/Utils.hpp" />
-  </ItemGroup>
+  </ItemGroup> -->
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>

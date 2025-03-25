@@ -2,7 +2,6 @@
 #include "ImageRenderer.hpp"
 #include "stb_image.h"
 #include <iostream>
-#include <vector>
 
 //const char* ASCII_CHARS = "@%#*+=-:. ";
 //TODO add reversed shading -r
@@ -16,7 +15,7 @@ ImageRenderer::~ImageRenderer() {
 }
 
 bool ImageRenderer::loadImage(const std::string& filePath) {
-    m_imageData = stbi_load(filePath.c_str(), &m_width, &m_height, &m_channels, 1); // Load as grayscale
+    m_imageData = stbi_load(filePath.c_str(), &m_width, &m_height, &m_channels, 3);
     if (!m_imageData) {
         std::cerr << "Error: Failed to load image " << filePath << std::endl;
         return false;
@@ -47,7 +46,15 @@ void ImageRenderer::convertToAscii() {
             int origX = (w * m_width) / newWidth;
             int origY = (h * m_height) / newHeight;
 
-            int pixelIndex = h * m_width + w;
+            int pixelIndex = (origY * m_width + origX) * m_channels;
+
+            // Bounds check to prevent out-of-bounds access
+            if (pixelIndex < 0 || pixelIndex + 2 >= m_width * m_height * m_channels) {
+                std::cerr << "Out of bounds access at pixelIndex=" << pixelIndex << std::endl;
+                line += ' '; // Add space instead of crashing
+                continue;
+            }
+
             // Extract RGB values
             unsigned char r = m_imageData[pixelIndex + 0]; // Red
             unsigned char g = m_imageData[pixelIndex + 1]; // Green
@@ -57,7 +64,6 @@ void ImageRenderer::convertToAscii() {
             unsigned char grayPixel = (unsigned char)(0.299 * r + 0.587 * g + 0.114 * b);
             line += getAsciiChar(grayPixel);
         }
-        line += '\n';
         m_asciiArt.push_back(line);
     }
 }
@@ -69,7 +75,7 @@ char ImageRenderer::getAsciiChar(unsigned char grayscaleValue) {
 
 void ImageRenderer::render() {
     for (const std::string& line : m_asciiArt) {
-        std::cout << line << std::endl;
+        std::cout << line << '\n';
     }
 }
 
