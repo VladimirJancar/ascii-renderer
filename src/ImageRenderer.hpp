@@ -7,7 +7,7 @@
 
 class ImageRenderer {
 public:
-    ImageRenderer();
+    ImageRenderer(bool info);
     ~ImageRenderer();
 
     bool loadImage(const std::string& filePath);
@@ -15,6 +15,7 @@ public:
     void render();
 
 private:
+    bool m_info;
     int m_width, m_height, m_channels;
     unsigned char* m_imageData;
     std::vector<std::string> m_asciiArt;

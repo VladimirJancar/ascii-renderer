@@ -45,6 +45,8 @@ int ArgumentParser::checkArgumentValidity()
 
 int ArgumentParser::parseArguments()
 {
+	m_info = true;
+
 	if (!checkArgumentValidity()) {
 		printUsage(m_argv[0]);
 		return 0;

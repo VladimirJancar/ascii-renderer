@@ -13,6 +13,8 @@ public:
     int checkArgumentValidity();
     int parseArguments();
 
+    bool m_info;
+
 private:
     int m_argc;
     std::vector<std::string> m_argv;

@@ -7,12 +7,9 @@ int main(int argc, char* argv[]) {
     ArgumentParser argParser(argc, argv);
     argParser.parseArguments();
 
-    //std::string imagePath = argv[1];
-    std::string imagePath = "assets/img2.png";
-    
-
-    ImageRenderer renderer;
-
+    //std::string imagePath = "assets/img2.png";
+    std::string imagePath = argv[argc - 1];
+    ImageRenderer renderer(argParser.m_info);
     if (!renderer.loadImage(imagePath)) {
         return 1;
     }
