@@ -35,7 +35,7 @@ int ArgumentParser::checkArgumentValidity()
 		const auto option{ std::find(possibleOptions.begin(), possibleOptions.end(), m_argv[1]) };
 
 		if (option == possibleOptions.end()) {
-			std::cerr << "Invalid operation argument!\n";
+			std::cerr << "Invalid operation argument(s)!\n";
 			return 0;
 		}
 	}
@@ -45,11 +45,20 @@ int ArgumentParser::checkArgumentValidity()
 
 int ArgumentParser::parseArguments()
 {
-	m_info = true;
-
 	if (!checkArgumentValidity()) {
 		printUsage(m_argv[0]);
 		return 0;
 	}
+
+	for (int arg = 1; arg < m_argc - 1; arg++) {
+		if (m_argv[arg] == "-h" || m_argv[arg] == "--help") {
+			std::cout << "This program is a simple, lightweight way to convert images of various formats into ascii art." << '\n';
+			printUsage(m_argv[0]);
+		}
+		else if (m_argv[arg] == ) {
+
+		}
+	}
+
 	return 1;
 }
