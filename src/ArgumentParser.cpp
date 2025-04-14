@@ -55,9 +55,9 @@ int ArgumentParser::parseArguments()
 			std::cout << "This program is a simple, lightweight way to convert images of various formats into ascii art." << '\n';
 			printUsage(m_argv[0]);
 		}
-		else if (m_argv[arg] == ) {
+		/*else if (m_argv[arg] == ) {
 
-		}
+		}*/
 	}
 
 	return 1;
