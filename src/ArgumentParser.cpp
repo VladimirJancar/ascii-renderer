@@ -17,7 +17,7 @@ void ArgumentParser::printUsage(const std::string& programName) {
 		<< "  -s <scale>        Adjust ASCII scaling (default: 1.0)\n"
 		<< "  -d                Resize image before processing\n"
 		<< "  -r                Reverse grayscale of output \n"
-		<< "  -i                Extra information about parsed file \n"
+		<< "  -v                Extra information about parsed file \n"
 		<< std::endl;
 }
 
@@ -28,15 +28,17 @@ int ArgumentParser::checkArgumentValidity()
 	}
 
 	const std::vector<std::string> possibleOptions{
-		"-h", "--help", "-o", "-s", "-d", "-r", "-i"
+		"-h", "--help", "-o", "-s", "-d", "-r", "-v"
 	};
 
 	for (int arg = 1; arg < m_argc - 1; arg++) {
-		const auto option{ std::find(possibleOptions.begin(), possibleOptions.end(), m_argv[1]) };
+		if (m_argv[arg][0] == '-') {
+			const auto option{ std::find(possibleOptions.begin(), possibleOptions.end(), m_argv[arg]) };
 
-		if (option == possibleOptions.end()) {
-			std::cerr << "Invalid operation argument(s)!\n";
-			return 0;
+			if (option == possibleOptions.end()) {
+				std::cerr << "Error: Invalid option(s)!\n";
+				return 0;
+			}
 		}
 	}
 
@@ -55,9 +57,20 @@ int ArgumentParser::parseArguments()
 			std::cout << "This program is a simple, lightweight way to convert images of various formats into ascii art." << '\n';
 			printUsage(m_argv[0]);
 		}
-		/*else if (m_argv[arg] == ) {
+		else if (m_argv[arg] == "-o") {
+			if (arg + 1 < m_argv.size()) {
+				m_outputFile = m_argv[++arg];
 
-		}*/
+				if (m_outputFile[0] == '-') {
+					std::cerr << "Error: Invalid output file name.\n";
+					exit(1);
+				}
+			}
+			else {
+				std::cerr << "Error: -o requires a filename.\n";
+				exit(1);
+			}
+		}
 	}
 
 	return 1;

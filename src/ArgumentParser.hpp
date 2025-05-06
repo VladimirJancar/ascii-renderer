@@ -14,6 +14,7 @@ public:
     int parseArguments();
 
     bool m_info;
+    std::string m_outputFile;
 
 private:
     int m_argc;
