@@ -1,6 +1,8 @@
 #include "ArgumentParser.hpp"
 
-ArgumentParser::ArgumentParser(int argc, char* argv[]) : m_argc(argc) {
+ArgumentParser::ArgumentParser(int argc, char* argv[]) : 
+	m_argc(argc), m_info(false), m_outputFile(nullptr)
+{
 	for (int i = 0; i < argc; ++i) {
 		m_argv.push_back(std::string(argv[i]));
 	}
@@ -63,15 +65,23 @@ int ArgumentParser::parseArguments()
 
 				if (m_outputFile[0] == '-') {
 					std::cerr << "Error: Invalid output file name.\n";
-					exit(1);
+					return 0;;
 				}
 			}
 			else {
 				std::cerr << "Error: -o requires a filename.\n";
-				exit(1);
+				return 0;;
 			}
 		}
 	}
 
 	return 1;
+}
+
+std::unordered_map<std::string : std::string> ArgumentParser::getOptions()
+{
+	/*
+	todo getter
+	todo privatize flags
+	*/
 }
