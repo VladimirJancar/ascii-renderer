@@ -1,7 +1,6 @@
 #include "ArgumentParser.hpp"
 
-ArgumentParser::ArgumentParser(int argc, char* argv[]) : 
-	m_argc(argc), m_info(false), m_outputFile(nullptr)
+ArgumentParser::ArgumentParser(int argc, char* argv[]) : m_argc(argc)
 {
 	for (int i = 0; i < argc; ++i) {
 		m_argv.push_back(std::string(argv[i]));

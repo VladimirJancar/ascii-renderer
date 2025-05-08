@@ -26,8 +26,6 @@ private:
         {"-d", ""},    // resize image
         {"-r", ""}     // reverse grayscale
     };
-    bool m_info;
-    std::string m_outputFile;
 
     int m_argc;
     std::vector<std::string> m_argv;

@@ -8,7 +8,7 @@ const std::string ASCII_CHARS = " .:-=+*#&@";
 //const std::string ASCII_CHARS = " .:~i=CX&";
 const std::string ASCII_BLOCKS = "██▓▓▒▒░░  ";
 
-ImageRenderer::ImageRenderer(bool info) : m_imageData(nullptr), m_width(0), m_height(0), m_channels(0), m_info(info) {}
+ImageRenderer::ImageRenderer(const std::unordered_map<std::string, std::string>& options) : m_imageData(nullptr), m_width(0), m_height(0), m_channels(0), m_options(options) {}
 
 ImageRenderer::~ImageRenderer() {
     freeImage();
@@ -29,8 +29,9 @@ void ImageRenderer::convertToAscii() {
         return;
     }
 
-    if (m_info)
-        std::cout << "Image Loaded: " << m_width << "x" << m_height << " Channels: " << m_channels << "\n";
+    if (m_options.at("-v") == "true") {
+        std::cout << "Image Loaded: " << m_width << "x" << m_height << " Channels: " << m_channels << "\n"; 
+    }
 
 
     // Calculate the new width (100 in this case) and adjust the height to keep the correct aspect ratio. The height is halved to account for the fact that terminal characters are usually taller than they are wide.

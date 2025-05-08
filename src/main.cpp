@@ -5,13 +5,14 @@
 
 int main(int argc, char* argv[]) {
     ArgumentParser argParser(argc, argv);
-    if (!argParser.parseArguments())
+    if (!argParser.parseArguments()) {
         return 1;
+    }
 
-    //std::string imagePath = "assets/img2.png";
-    std::string imagePath = argv[argc - 1];
-    ImageRenderer renderer(argParser.m_info);
-    if (!renderer.loadImage(imagePath)) {
+    const std::unordered_map<std::string, std::string>& options = argParser.getOptions();
+
+    ImageRenderer renderer(options);
+    if (!renderer.loadImage(options.at("-i"))) {
         return 1;
     }
 

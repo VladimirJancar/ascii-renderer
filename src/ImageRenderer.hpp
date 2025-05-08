@@ -4,10 +4,11 @@
 #include <iostream>
 #include <string>
 #include <vector>
+#include <unordered_map>
 
 class ImageRenderer {
 public:
-    ImageRenderer(bool info);
+    ImageRenderer(const std::unordered_map<std::string, std::string>& options);
     ~ImageRenderer();
 
     bool loadImage(const std::string& filePath);
@@ -15,7 +16,7 @@ public:
     void render();
 
 private:
-    bool m_info;
+    const std::unordered_map<std::string, std::string>& m_options;
     int m_width, m_height, m_channels;
     unsigned char* m_imageData;
     std::vector<std::string> m_asciiArt;
