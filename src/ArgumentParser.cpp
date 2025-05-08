@@ -57,13 +57,13 @@ int ArgumentParser::parseArguments()
 
 	// todo if only ./ascii.exe filename OR ./ascii.exe filename [options] => auto -i
 
-	for (int arg = 1; arg < m_argc - 1; arg++) {
+	for (int arg = 1; arg < m_argc; arg++) {
 		if (m_argv[arg] == "-h" || m_argv[arg] == "--help") {
 			std::cout << "This program is a simple, lightweight way to convert images of various formats into ascii art." << '\n';
 			printUsage(m_argv[0]);
 		}
 		else if (m_argv[arg] == "-i") {
-			if (arg + 1 >= m_argv.size() || m_argv[arg+1][0] == '-') {
+			if (arg + 1 >= m_argv.size() || m_argv[arg + 1][0] == '-') {
 				std::cerr << "Error: -i requires a filename.\n";
 				return 0;;
 			}
@@ -79,7 +79,7 @@ int ArgumentParser::parseArguments()
 		else if (m_argv[arg] == "-s") {
 			if (arg + 1 >= m_argv.size() || m_argv[arg + 1][0] == '-') {
 				std::cerr << "Error: -s requires a number for scale (default: 1.0).\n";
-				return 0;;
+				return 0;
 			}
 			m_options["-s"] = m_argv[++arg];
 		}

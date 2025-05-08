@@ -2,13 +2,15 @@
 #include "ImageRenderer.hpp"
 
 
-//TODO add reversed shading -r
-const std::string ASCII_CHARS = " .:-=+*#&@";
-//const std::string ASCII_CHARS = "@&#*+=-:. ";
-//const std::string ASCII_CHARS = " .:~i=CX&";
-const std::string ASCII_BLOCKS = "██▓▓▒▒░░  ";
+ImageRenderer::ImageRenderer(const std::unordered_map<std::string, std::string>& options) :
+    m_imageData(nullptr), m_width(0), m_height(0), m_channels(0), m_options(options)
+{
+    m_asciiChars = (options.at("-r") == "true") ? "@&#*+=-:. " : " .:-=+*#&@";
 
-ImageRenderer::ImageRenderer(const std::unordered_map<std::string, std::string>& options) : m_imageData(nullptr), m_width(0), m_height(0), m_channels(0), m_options(options) {}
+    //const std::string ASCII_CHARS = "@&#*+=-:. ";
+    //const std::string ASCII_CHARS = " .:~i=CX&";
+    //const std::string ASCII_BLOCKS = "██▓▓▒▒░░  ";
+}
 
 ImageRenderer::~ImageRenderer() {
     freeImage();
@@ -70,8 +72,8 @@ void ImageRenderer::convertToAscii() {
 }
 
 char ImageRenderer::getAsciiChar(unsigned char grayscaleValue) {
-    int index = (grayscaleValue * (ASCII_CHARS.length() - 1)) / 255;
-    return ASCII_CHARS[index];
+    int index = (grayscaleValue * (m_asciiChars.length() - 1)) / 255;
+    return m_asciiChars[index];
 }
 
 void ImageRenderer::render() {
