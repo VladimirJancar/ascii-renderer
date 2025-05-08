@@ -3,6 +3,7 @@
 #include <iostream>
 #include <string>
 #include <vector>
+#include <unordered_map>
 
 class ArgumentParser {
 public:
@@ -12,11 +13,22 @@ public:
     void printUsage(const std::string& programName);
     int checkArgumentValidity();
     int parseArguments();
+    const std::unordered_map<std::string, std::string>& getOptions() const {
+        return m_options;
+    }
 
+private:
+    std::unordered_map<std::string, std::string> m_options{
+        {"-i", ""},    // input file
+        {"-o", ""},    // output file
+        {"-s", "1.0"}, // scale
+        {"-v", ""},    // verbose mode
+        {"-d", ""},    // resize image
+        {"-r", ""}     // reverse grayscale
+    };
     bool m_info;
     std::string m_outputFile;
 
-private:
     int m_argc;
     std::vector<std::string> m_argv;
 };
