@@ -5,6 +5,7 @@
 #include <string>
 #include <vector>
 #include <unordered_map>
+#include <fstream>
 
 class ImageRenderer {
 public:
@@ -14,6 +15,7 @@ public:
     bool loadImage(const std::string& filePath);
     void convertToAscii();
     void render();
+    void writeToFile();
 
 private:
     const std::unordered_map<std::string, std::string>& m_options;

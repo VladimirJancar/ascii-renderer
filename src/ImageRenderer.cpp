@@ -77,9 +77,29 @@ char ImageRenderer::getAsciiChar(unsigned char grayscaleValue) {
 }
 
 void ImageRenderer::render() {
-    for (const std::string& line : m_asciiArt) {
-        std::cout << line << '\n';
+    if (!m_options.at("-o").empty()) {
+        writeToFile();
     }
+    else {
+        for (const std::string& line : m_asciiArt) {
+            std::cout << line << '\n';
+        }
+    }
+}
+
+void ImageRenderer::writeToFile() {
+    std::ofstream outFile(m_options.at("-o"));
+
+    if (!outFile) {
+        std::cerr << "Error: Could not open file '" << m_options.at("-o") << "' for writing.\n";
+        return;
+    }
+
+    for (const std::string& line : m_asciiArt) {
+        outFile << line << '\n';
+    }
+
+    outFile.close();
 }
 
 void ImageRenderer::freeImage() {
