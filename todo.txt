@@ -5,6 +5,8 @@
 -add option to open in a new static cmd
 -add dynamic image scaling
 -add defaults
+-complete -v 
+-add -d, -s support
 
 
 

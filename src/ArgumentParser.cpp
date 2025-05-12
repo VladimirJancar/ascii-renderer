@@ -13,13 +13,13 @@ ArgumentParser::~ArgumentParser() {}
 void ArgumentParser::printUsage(const std::string& programName) {
 	std::cout << "Usage: " << programName << " <file_path> [options]\n"
 		<< "Options:\n"
-		<< "  -h, --help        Show help message\n"
-		<< "  -o <input.jpg/...>   Input file to convert\n"
-		<< "  -i <output.txt>   Save ASCII output to a file\n"
-		<< "  -s <scale>        Adjust ASCII scaling (default: 1.0)\n"
-		<< "  -d                Resize image before processing\n"
-		<< "  -r                Reverse grayscale of output \n"
-		<< "  -v                Extra information about parsed file \n"
+		<< "  -h, --help         Show help message\n"
+		<< "  -o <input.jpg/...> Save ASCII output to a file\n"
+		<< "  -i <output.txt>    Input file to convert\n"
+		<< "  -s <scale>         Adjust ASCII scaling (default: 1.0)\n"
+		<< "  -d                 Resize image before processing\n"
+		<< "  -r                 Reverse grayscale of output \n"
+		<< "  -v                 Extra information about parsed file \n"
 		<< std::endl;
 }
 

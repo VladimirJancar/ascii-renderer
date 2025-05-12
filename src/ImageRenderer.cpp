@@ -100,6 +100,7 @@ void ImageRenderer::writeToFile() {
     }
 
     outFile.close();
+    std::cout << "Image successfully converted and written into '" << m_options.at("-o") << "'.\n";
 }
 
 void ImageRenderer::freeImage() {
