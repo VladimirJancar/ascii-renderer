@@ -11,11 +11,11 @@ ArgumentParser::ArgumentParser(int argc, char* argv[]) : m_argc(argc)
 ArgumentParser::~ArgumentParser() {}
 
 void ArgumentParser::printUsage(const std::string& programName) {
-	std::cout << "Usage: " << programName << " <file_path> [options]\n"
+	std::cout << "Usage: ./" << std::filesystem::path(programName).filename().string() << " -i <file_path> [options]\n"
 		<< "Options:\n"
 		<< "  -h, --help         Show help message\n"
-		<< "  -o <input.jpg/...> Save ASCII output to a file\n"
-		<< "  -i <output.txt>    Input file to convert\n"
+		<< "  -i <input.jpg/...> Input file to convert\n"
+		<< "  -o <output.txt>    Save ASCII output to a file\n"
 		<< "  -s <scale>         Adjust ASCII scaling (default: 1.0)\n"
 		<< "  -d                 Resize image before processing\n"
 		<< "  -r                 Reverse grayscale of output \n"
@@ -23,9 +23,21 @@ void ArgumentParser::printUsage(const std::string& programName) {
 		<< std::endl;
 }
 
+void ArgumentParser::printBanner() {
+	std::ifstream file("assets/banner.txt");
+	if (!file) return;
+	std::string line{};
+	while (file) {
+		std::getline(file, line);
+		std::cout << line << '\n';
+	}
+	file.close();
+}
+
 int ArgumentParser::checkArgumentValidity()
 {
 	if (m_argc < 2) {
+		printBanner();
 		return 0;
 	}
 
@@ -38,6 +50,7 @@ int ArgumentParser::checkArgumentValidity()
 			const auto option{ std::find(possibleOptions.begin(), possibleOptions.end(), m_argv[arg]) };
 
 			if (option == possibleOptions.end()) {
+				//std::cerr << "Error: invalid argument(s).\n";
 				std::cerr << "Error: Invalid option(s)!\n";
 				return 0;
 			}
@@ -50,7 +63,6 @@ int ArgumentParser::checkArgumentValidity()
 int ArgumentParser::parseArguments()
 {
 	if (!checkArgumentValidity()) {
-		std::cerr << "Error: invalid argument(s).\n";
 		printUsage(m_argv[0]);
 		return 0;
 	}

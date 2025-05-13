@@ -4,6 +4,8 @@
 #include <string>
 #include <vector>
 #include <unordered_map>
+#include <fstream>
+#include <filesystem>
 
 class ArgumentParser {
 public:
@@ -11,6 +13,8 @@ public:
     ~ArgumentParser();
 
     void printUsage(const std::string& programName);
+    void printBanner();
+
     int checkArgumentValidity();
     int parseArguments();
     const std::unordered_map<std::string, std::string>& getOptions() const {

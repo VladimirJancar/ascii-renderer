@@ -1,4 +1,5 @@
 -finish readme
+-add banner
 -remove redundant ffmpeg binaries and headers
 -implement options
 -add option for img/vid (parsing file format)

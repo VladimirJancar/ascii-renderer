@@ -1,7 +1,10 @@
 #include <iostream>
 
+#include <fstream>
 #include "ImageRenderer.hpp"
 #include "ArgumentParser.hpp"
+
+
 
 int main(int argc, char* argv[]) {
     ArgumentParser argParser(argc, argv);
@@ -21,3 +24,4 @@ int main(int argc, char* argv[]) {
 
     return 0;
 }
+
