@@ -8,7 +8,6 @@ A C++ program that converts image files into ASCII art and prints them to consol
 - gif rendering
 - colour support
 - linux support
-- printing to file
 - many new command-line options
 
 <!--
@@ -24,7 +23,7 @@ TODO
 
 
 ### Features
-- TODO
+- printing to file
 
 ## Installation
 -->
