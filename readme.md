@@ -21,7 +21,6 @@ A C++ program that converts image files into ASCII art and prints them to consol
 ## About
 TODO
 
-
 ### Features
 - printing to file
 

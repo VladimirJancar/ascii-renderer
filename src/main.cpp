@@ -4,6 +4,10 @@
 #include "ImageRenderer.hpp"
 #include "ArgumentParser.hpp"
 
+extern "C" {
+#include <libavformat/avformat.h>
+#include <libavcodec/avcodec.h>
+}
 
 
 int main(int argc, char* argv[]) {
