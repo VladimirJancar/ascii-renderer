@@ -31,11 +31,5 @@ private:
     uint8_t* m_imageData;
     std::vector<std::string> m_asciiArt;
 
-    AVPacket* m_packet;
-    AVFrame* m_frame;
-    AVCodecContext* m_codecCtx;
-    AVFormatContext* m_fmtCtx;
-
     char getAsciiChar(unsigned char grayscaleValue);
-    void freeImage(AVPacket* packet, AVFrame* frame, AVCodecContext* codec_ctx, AVFormatContext* fmt_ctx);
 };

@@ -7,94 +7,94 @@ ImageRenderer::ImageRenderer(const std::unordered_map<std::string, std::string>&
 }
 
 ImageRenderer::~ImageRenderer() {
-    freeImage(m_packet, m_frame, m_codecCtx, m_fmtCtx);
+    if (m_imageData) {
+        delete[] m_imageData;
+        m_imageData = nullptr;
+    }
 }
 
 bool ImageRenderer::loadImage(const std::string& filename) {
-    // Initialize FFmpeg
+    // Init
     avformat_network_init();
 
     // Open the image file
-    m_fmtCtx = nullptr;
-    if (avformat_open_input(&m_fmtCtx, filename.c_str(), nullptr, nullptr) < 0) {
+    AVFormatContext* fmtCtx = nullptr;
+    if (avformat_open_input(&fmtCtx, filename.c_str(), nullptr, nullptr) < 0) {
         std::cerr << "Could not open image file: " << filename << "\n";
         return false;
     }
 
     // Find stream information
-    if (avformat_find_stream_info(m_fmtCtx, nullptr) < 0) {
+    if (avformat_find_stream_info(fmtCtx, nullptr) < 0) {
         std::cerr << "Could not find stream information\n";
-        avformat_close_input(&m_fmtCtx);
+        avformat_close_input(&fmtCtx);
         return false;
     }
 
     // Find the first video stream
     int video_stream_idx = -1;
     const AVCodec* codec = nullptr;
-    for (unsigned int i = 0; i < m_fmtCtx->nb_streams; i++) {
-        if (m_fmtCtx->streams[i]->codecpar->codec_type == AVMEDIA_TYPE_VIDEO) {
+    for (unsigned int i = 0; i < fmtCtx->nb_streams; i++) {
+        if (fmtCtx->streams[i]->codecpar->codec_type == AVMEDIA_TYPE_VIDEO) {
             video_stream_idx = i;
-            codec = avcodec_find_decoder(m_fmtCtx->streams[i]->codecpar->codec_id);
+            codec = avcodec_find_decoder(fmtCtx->streams[i]->codecpar->codec_id);
             break;
         }
     }
     if (video_stream_idx == -1 || !codec) {
         std::cerr << "Could not find video stream or codec\n";
-        avformat_close_input(&m_fmtCtx);
+        avformat_close_input(&fmtCtx);
         return false;
     }
 
     // Allocate codec context
-    m_codecCtx = avcodec_alloc_context3(codec);
-    if (!m_codecCtx || avcodec_parameters_to_context(m_codecCtx, m_fmtCtx->streams[video_stream_idx]->codecpar) < 0) {
+    AVCodecContext* codecCtx = avcodec_alloc_context3(codec);
+    if (!codecCtx || avcodec_parameters_to_context(codecCtx, fmtCtx->streams[video_stream_idx]->codecpar) < 0) {
         std::cerr << "Could not allocate or initialize codec context\n";
-        avformat_close_input(&m_fmtCtx);
+        avformat_close_input(&fmtCtx);
         return false;
     }
 
     // Open codec
-    if (avcodec_open2(m_codecCtx, codec, nullptr) < 0) {
+    if (avcodec_open2(codecCtx, codec, nullptr) < 0) {
         std::cerr << "Could not open codec\n";
-        avcodec_free_context(&m_codecCtx);
-        avformat_close_input(&m_fmtCtx);
+        avcodec_free_context(&codecCtx);
+        avformat_close_input(&fmtCtx);
         return false;
     }
 
     // Allocate packet and frame
-    m_packet = av_packet_alloc();
-    m_frame = av_frame_alloc();
-    if (!m_packet || !m_frame) {
+    AVPacket* packet = av_packet_alloc();
+    AVFrame* frame = av_frame_alloc();
+    if (!packet || !frame) {
         std::cerr << "Could not allocate packet or frame\n";
-        avcodec_free_context(&m_codecCtx);
-        avformat_close_input(&m_fmtCtx);
+        avcodec_free_context(&codecCtx);
+        avformat_close_input(&fmtCtx);
         return false;
     }
 
     // Read and decode the image
     bool decoded = false;
-    if (av_read_frame(m_fmtCtx, m_packet) >= 0 && m_packet->stream_index == video_stream_idx) {
-        if (avcodec_send_packet(m_codecCtx, m_packet) >= 0) {
-            if (avcodec_receive_frame(m_codecCtx, m_frame) >= 0) {
+    if (av_read_frame(fmtCtx, packet) >= 0 && packet->stream_index == video_stream_idx) {
+        if (avcodec_send_packet(codecCtx, packet) >= 0) {
+            if (avcodec_receive_frame(codecCtx, frame) >= 0) {
                 decoded = true;
             }
         }
     }
     if (!decoded) {
         std::cerr << "Failed to decode image\n";
-        freeImage(m_packet, m_frame, m_codecCtx, m_fmtCtx);
         return false;
     }
 
-    // Set image properties
-    m_width = m_frame->width;
-    m_height = m_frame->height;
-    m_channels = 3; // We'll convert to RGB24
+    m_width = frame->width;
+    m_height = frame->height;
+    m_channels = 3;
 
     // Convert to RGB24 using swscale
     AVFrame* rgb_frame = av_frame_alloc();
     if (!rgb_frame) {
         std::cerr << "Could not allocate RGB frame\n";
-        freeImage(m_packet, m_frame, m_codecCtx, m_fmtCtx);
         return false;
     }
 
@@ -103,25 +103,23 @@ bool ImageRenderer::loadImage(const std::string& filename) {
     if (buffer_size < 0) {
         std::cerr << "Could not allocate RGB buffer\n";
         av_frame_free(&rgb_frame);
-        freeImage(m_packet, m_frame, m_codecCtx, m_fmtCtx);
         return false;
     }
 
     // Set up swscale context
     struct SwsContext* sws_ctx = sws_getContext(
-        m_frame->width, m_frame->height, static_cast<AVPixelFormat>(m_frame->format),
+        frame->width, frame->height, static_cast<AVPixelFormat>(frame->format),
         m_width, m_height, AV_PIX_FMT_RGB24,
         SWS_BILINEAR, nullptr, nullptr, nullptr);
     if (!sws_ctx) {
         std::cerr << "Could not initialize swscale context\n";
         av_freep(&rgb_frame->data[0]);
         av_frame_free(&rgb_frame);
-        freeImage(m_packet, m_frame, m_codecCtx, m_fmtCtx);
         return false;
     }
 
     // Convert to RGB24
-    sws_scale(sws_ctx, m_frame->data, m_frame->linesize, 0, m_height, rgb_frame->data, rgb_frame->linesize);
+    sws_scale(sws_ctx, frame->data, frame->linesize, 0, m_height, rgb_frame->data, rgb_frame->linesize);
 
     // Copy pixel data to m_imageData
     m_imageData = new uint8_t[buffer_size];
@@ -135,6 +133,12 @@ bool ImageRenderer::loadImage(const std::string& filename) {
 
     std::cout << "Image loaded: " << m_width << "x" << m_height
         << ", format: RGB24, channels: " << m_channels << "\n";
+
+    av_packet_free(&packet);
+    av_frame_free(&frame);
+    avcodec_free_context(&codecCtx);
+    avformat_close_input(&fmtCtx);
+    avformat_network_deinit();
 
     return true;
 }
@@ -213,16 +217,4 @@ void ImageRenderer::writeToFile() {
 
     outFile.close();
     std::cout << "Image successfully converted and written into '" << m_options.at("-o") << "'.\n";
-}
-
-void ImageRenderer::freeImage(AVPacket* packet, AVFrame* frame, AVCodecContext* codec_ctx, AVFormatContext* fmt_ctx) {
-    if (m_imageData) {
-        delete[] m_imageData; // Free dynamically allocated pixel data
-        m_imageData = nullptr;
-    }
-    av_packet_free(&packet);
-    av_frame_free(&frame);
-    avcodec_free_context(&codec_ctx);
-    avformat_close_input(&fmt_ctx);
-    avformat_network_deinit();
 }
